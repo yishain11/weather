@@ -5,7 +5,8 @@ const WeatherDataContext = createContext({});
 
 const WeatherDataProvider = ({ children }) => {
     const serverURL = useRef(import.meta.env.VITE_SERVER_URL_DEV);
-    const [weatherData, setWeatherData] = useState({});
+    const weatherData = useRef({});
+    const [currentWeather, setCurrentWeather] = useState(null)
     const fetchWeatherDataFN = (country, city) => {
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
@@ -18,7 +19,10 @@ const WeatherDataProvider = ({ children }) => {
             .catch(err => console.error('fetch err', err));
     };
     const weatherState = {
-        fetchWeatherDataFN
+        fetchWeatherDataFN,
+        weatherData,
+        setCurrentWeather,
+        currentWeather
     };
     return <WeatherDataContext.Provider value={weatherState} >{children}</WeatherDataContext.Provider>;
 };

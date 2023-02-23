@@ -1,5 +1,13 @@
-export default function WeatherCard({ temp, }) {
-    return <div>
+import DataCard from '../../DataCard/DataCard';
+import * as SC from './WeatherCard.style';
+
+export default function WeatherCard({ weatherData }) {
+    console.log('weatherData', weatherData);
+    return <SC.Section>
         <h1>weather data</h1>
-    </div>;
+        {weatherData && Object.entries(weatherData).map((data, i) => {
+            console.log('data', data);
+            return <DataCard data={data} key={i} />;
+        })}
+    </SC.Section>;
 }
