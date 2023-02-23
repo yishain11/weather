@@ -17,7 +17,7 @@ export default function Form() {
             body: JSON.stringify({ country, city }),
             headers: headers
         })
-            .then(res => res.text()).then(res => { console.log('res client', res); })
+            .then(res => res.json()).then(res => { console.log('res client', res); })
             .catch(err => console.error('fetch err', err))
     }
 
