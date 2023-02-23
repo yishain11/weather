@@ -13,14 +13,14 @@ export const FormEl = styled.form`
 export const FieldsContainer = styled.p`
     display:flex;
     width: 80%;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
 `;
 
 export const Label = styled.label`
-    float: left;
+    /* float: left; */
 `;
 
 export const Input = styled.input`
-    float: right;
+    /* float: right; */
 `;
