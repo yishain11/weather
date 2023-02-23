@@ -4,12 +4,17 @@ export const FormEl = styled.form`
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    background-color: #095849;
+    width: 30%;
+    height: 60%;
+    margin: auto;
 `;
 
 export const FieldsContainer = styled.p`
-    width: 100%;
     display:flex;
-    justify-content: space-around;
+    width: 80%;
+    justify-content: space-between;
+    align-items: center;
 `;
 
 export const Label = styled.label`
