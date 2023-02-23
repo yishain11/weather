@@ -18,9 +18,9 @@ export const FieldsContainer = styled.p`
 `;
 
 export const Label = styled.label`
-    /* float: left; */
+    width: 30%;
 `;
 
 export const Input = styled.input`
-    /* float: right; */
+    width: 70%;
 `;
