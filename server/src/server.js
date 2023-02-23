@@ -19,15 +19,8 @@ app.get('/', (req, res) => {
 });
 
 app.get('/weather', async (req, res) => {
-    const url = 'http://api.positionstack.com/v1/forward?' + new URLSearchParams({
-        access_key: process.env.GEOCODE_KEY,
-        query: 'central jerusalem, israel',
-    });
-    console.log('url', url);
-    const data = await fetch(url).then(res => res.json());
-    console.log('data', data);
-    res.send(JSON.stringify(data)).end();
 });
+
 app.listen(port, () => {
     console.log(`App listening on port ${port}`);
 });
