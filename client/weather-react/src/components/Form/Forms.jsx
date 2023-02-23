@@ -7,10 +7,8 @@ export default function Form() {
 
     function handleSubmit(e) {
         e.preventDefault();
-        console.log('values: ');
-        console.log('cityInput', cityInput.current.value);
-        console.log('countryInput', countryInput.current.value)
     }
+
     return <FormEl onSubmit={handleSubmit}>
         <FieldsContainer>
             <Label htmlFor="country">Country</Label>
