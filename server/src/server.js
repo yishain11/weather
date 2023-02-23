@@ -4,21 +4,37 @@ const app = express();
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
+const cors = require('cors');
+
+const weatherHelpers = require('../helpers/getWeatherHelpers')
 
 const port = process.env.PORT;
-const weatherUrl = process.env.WEATHER_URL;
-const weatherKey = process.env.WEATHER_KEY;
 
 app.use(express.static(path.join(__dirname, '../../client/weather-react/dist/')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json())
+app.use(cors())
 
 app.get('/', (req, res) => {
     const reactStream = fs.createReadStream(path.join(__dirname, '../../client/weather-react/dist/index.html'));
     reactStream.pipe(res);
 });
 
-app.get('/weather', async (req, res) => {
+app.post('/weather', async (req, res) => {
+    const { city, country } = req.body;
+    const data = weatherHelpers.getLatLng(country, city);
+    if (!data) {
+        res.send({ msg: `err, no lat long values for country: ${country}, city: ${city}` }).end();
+        return;
+    }
+    weatherHelpers.getWeatherData(data.lat, data.lon).then(weatherRes => {
+        res.send({ weatherRes }).end();
+        return;
+    }).catch(err => {
+        console.error('err', err);
+        res.send({ 'err in get weather': err }).end();
+        return;
+    });
 });
 
 app.listen(port, () => {
