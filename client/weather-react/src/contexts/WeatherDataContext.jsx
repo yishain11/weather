@@ -6,7 +6,7 @@ const WeatherDataContext = createContext({});
 const WeatherDataProvider = ({ children }) => {
     const serverURL = useRef(import.meta.env.VITE_SERVER_URL_DEV);
     const weatherData = useRef({});
-    const [currentWeather, setCurrentWeather] = useState(null)
+    const [currentWeather, setCurrentWeather] = useState(JSON.parse(localStorage.getItem('currentWeather')) || {})
     const fetchWeatherDataFN = (country, city) => {
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');

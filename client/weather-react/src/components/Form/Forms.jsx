@@ -32,13 +32,15 @@ export default function Form() {
                 console.log('res client', res);
                 currentData.current[country][city][`${currentDay}-${currentMonth}`] = res.weatherRes;
                 WC.setCurrentWeather(res.weatherRes.current_weather);
-                console.log('currentData.current', currentData.current)
+                console.log('currentData.', currentData.current);
+                localStorage.setItem('currentWeather', JSON.stringify(res.weatherRes.current_weather))
                 setIsData(true);
             }).catch(err => console.error('fetch err', err));
         } else {
             console.log('found old data to use');
             console.log('currentData.current[country][city][`${currentDay}-${currentMonth}`].current_weather', currentData.current[country][city][`${currentDay}-${currentMonth}`].current_weather);
-            WC.setCurrentWeather(currentData.current[country][city][`${currentDay}-${currentMonth}`].current_weather);
+            const currentWeather = currentData.current[country][city][`${currentDay}-${currentMonth}`].current_weather;
+            WC.setCurrentWeather(currentWeather);
             setIsData(true);
         }
     }

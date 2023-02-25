@@ -12,3 +12,9 @@ export const Row = styled.div`
     align-items: center;
     justify-content: space-around;
 `;
+
+export const Col = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+`;

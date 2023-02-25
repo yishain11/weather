@@ -6,7 +6,6 @@ export default function WeatherCard({ weatherData }) {
     return <SC.Section>
         <h1>weather data</h1>
         {weatherData && Object.entries(weatherData).map((data, i) => {
-            console.log('data', data);
             return <DataCard data={data} key={i} />;
         })}
     </SC.Section>;
