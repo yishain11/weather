@@ -14,33 +14,37 @@ export default function Form() {
         e.preventDefault();
         const country = countryInput.current.value.toLowerCase();
         const city = cityInput.current.value.toLowerCase();
-        const currentData = WC.weatherData;
         const date = new Date();
         const currentDay = date.getDate();
         const currentMonth = date.getMonth();
-        console.log('currentData.current before req', currentData.current);
-        if (!(country in currentData.current)) {
-            currentData.current[country] = {};
+        console.log('WC.currentWeather', WC.currentWeather);
+        if (!(country in WC.weatherData)) {
+            WC.weatherData.current[country] = {};
         }
-        if (!(city in currentData.current[country])) {
-            currentData.current[country][city] = {};
+        if (!(city in WC.weatherData.current[country])) {
+            WC.weatherData.current[country][city] = {};
         }
-        if (!(`${currentDay}-${currentMonth}` in currentData.current[country][city])) {
-            const headers = new Headers();
-            headers.append('Content-Type', 'application/json');
-            WC.fetchWeatherDataFN(country, city).then(res => {
-                console.log('res client', res);
-                currentData.current[country][city][`${currentDay}-${currentMonth}`] = res.weatherRes;
-                WC.setCurrentWeather(res.weatherRes.current_weather);
-                console.log('currentData.', currentData.current);
-                localStorage.setItem('currentWeather', JSON.stringify(res.weatherRes.current_weather))
-                setIsData(true);
-            }).catch(err => console.error('fetch err', err));
+        if (!(`${currentDay}-${currentMonth}` in WC.weatherData.current[country][city])) {
+            //  with memo
+            WC.setCurrentCountry(country);
+            WC.setCurrentCity(city);
+            console.log('weatherData', WC.weatherData);
+            setIsData(true);
+            // const headers = new Headers();
+            // headers.append('Content-Type', 'application/json');
+            // WC.fetchWeatherDataFN(country, city).then(res => {
+            //     console.log('res client', res);
+            //     currentData.current[country][city][`${currentDay}-${currentMonth}`] = res.weatherRes;
+            //     WC.setCurrentWeather(res.weatherRes.current_weather);
+            //     console.log('currentData.', currentData.current);
+            //     localStorage.setItem('currentWeather', JSON.stringify(res.weatherRes.current_weather))
+            //     setIsData(true);
+            // }).catch(err => console.error('fetch err', err));
         } else {
             console.log('found old data to use');
             console.log('currentData.current[country][city][`${currentDay}-${currentMonth}`].current_weather', currentData.current[country][city][`${currentDay}-${currentMonth}`].current_weather);
-            const currentWeather = currentData.current[country][city][`${currentDay}-${currentMonth}`].current_weather;
-            WC.setCurrentWeather(currentWeather);
+            const currentWeather = WC.weatherData.current[country][city][`${currentDay}-${currentMonth}`].current_weather;
+            WC.setCurrentWeather({ ...currentWeather });
             setIsData(true);
         }
     }
