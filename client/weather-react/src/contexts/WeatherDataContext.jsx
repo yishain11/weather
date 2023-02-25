@@ -41,7 +41,7 @@ const WeatherDataProvider = ({ children }) => {
                 setCurrentWeather({});
                 weatherData.current = {};
             });
-    }, [currentCountry, currentCity])
+    }, [currentCity])
     const weatherState = {
         fetchWeatherDataFN,
         setCurrentWeather,
