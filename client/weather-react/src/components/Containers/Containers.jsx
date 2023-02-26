@@ -11,6 +11,9 @@ export const Row = styled.div`
     margin: auto;
     align-items: center;
     justify-content: space-around;
+    @media screen and (max-width:480px){
+        flex-direction: column;
+    }
 `;
 
 export const Col = styled.div`

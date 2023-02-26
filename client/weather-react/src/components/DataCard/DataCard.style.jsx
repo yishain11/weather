@@ -22,4 +22,7 @@ export const DataRow = styled(Row)`
     border-radius: 5px;
     margin-top: 1rem;
     height: 100%;
+    @media screen and (max-width: 480px){
+        flex-direction: column;
+    }
 `;

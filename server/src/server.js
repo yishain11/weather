@@ -5,7 +5,8 @@ const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
 const cors = require('cors');
-const weatherRouter = require('../routes/weatherRouter');
+const weatherRouter = require('../routes/weather.router.js');
+const dataRouter = require('../routes/data.router');
 const port = process.env.PORT;
 
 app.use(express.static(path.join(__dirname, '../../client/weather-react/dist/')));
@@ -13,6 +14,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json())
 app.use(cors())
 app.use('/weather', weatherRouter)
+app.use('/data', dataRouter)
 
 app.get('/', (req, res) => {
     const reactStream = fs.createReadStream(path.join(__dirname, '../../client/weather-react/dist/index.html'));

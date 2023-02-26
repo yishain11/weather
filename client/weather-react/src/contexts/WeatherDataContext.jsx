@@ -1,29 +1,41 @@
-import { createContext, useMemo, useRef, useState } from 'react';
-
+import { createContext, useEffect, useMemo, useRef, useState } from 'react';
+import { getWeather, getCitiesByCountry, getCountries } from '../helpers/fetch.functions';
 const WeatherDataContext = createContext({});
 
 const WeatherDataProvider = ({ children }) => {
     const [currentCountry, setCurrentCountry] = useState('');
     const [currentCity, setCurrentCity] = useState('')
+    const [cities, setCities] = useState([]);
+    const [countries, setCountries] = useState([])
     const serverURL = useRef(import.meta.env.VITE_SERVER_URL_DEV);
     const weatherData = useRef({});
     const [currentWeather, setCurrentWeather] = useState(JSON.parse(localStorage.getItem('currentWeather')) || {})
-    const fetchWeatherDataFN = (country, city) => {
-        const headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-        return fetch(`http://${serverURL.current}/weather`, {
-            method: 'POST',
-            body: JSON.stringify({ country, city }),
-            headers: headers
-        })
-            .then(res => res.json())
-            .catch(err => console.error('fetch err', err));
-    };
-    const weatherDataLoaded = useMemo(() => {
+
+    useEffect(() => {
+        getCountries(serverURL)
+            .then(res => {
+                setCountries(res);
+            })
+            .catch(err => {
+                console.error('err in loading cities', err);
+            });
+    }, []);
+    useEffect(() => {
+        if (currentCountry) {
+            getCitiesByCountry(serverURL, currentCountry)
+                .then(res => {
+                    setCities(res);
+                })
+                .catch(err => {
+                    console.error('error in loading cities:', err);
+                });
+        }
+    }, [currentCountry]);
+    useEffect(() => {
         if (currentCity === '' || currentCountry === '') {
             return;
         }
-        fetchWeatherDataFN(currentCountry, currentCity)
+        getWeather(serverURL, currentCountry, currentCity)
             .then(res => {
                 if (res?.weatherRes?.current_weather) {
                     setCurrentWeather(res.weatherRes.current_weather);
@@ -38,16 +50,17 @@ const WeatherDataProvider = ({ children }) => {
                 setCurrentWeather({});
                 weatherData.current = {};
             });
-    }, [currentCity])
+    }, [currentCity, currentCountry])
     const weatherState = {
-        fetchWeatherDataFN,
         setCurrentWeather,
         currentWeather,
         setCurrentCountry,
         setCurrentCity,
         currentCity,
         currentCountry,
-        weatherData
+        weatherData,
+        cities,
+        countries
     };
     return <WeatherDataContext.Provider value={weatherState} >{children}</WeatherDataContext.Provider>;
 };
