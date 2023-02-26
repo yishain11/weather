@@ -26,7 +26,6 @@ export function handleSelection(setFn, selectedOption, inputRef, setIfFilFn) {
 }
 
 export function processDailyWeather(dailyWeatherObj) {
-    console.log('dailyWeatherObj', dailyWeatherObj);
     const termsMap = {
         temperature_2m_max: 'temperature',
         windspeed_10m_max: 'windspeed'
