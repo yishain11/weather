@@ -1,7 +1,7 @@
 
 import { countries } from '../data/countries';
 import { data } from '../data/parsed';
-const weatherUrl = import.meta.env.VITE_WEATHER_URL;
+const weatherUrl = 'https://api.open-meteo.com/v1/forecast?';
 console.log('weatherUrl', weatherUrl)
 
 function getLatLng(country, city) {
