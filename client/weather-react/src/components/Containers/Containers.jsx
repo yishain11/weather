@@ -1,8 +1,20 @@
 import styled from 'styled-components';
 
-const ColContainer = styled.div`
+export const ColContainer = styled.div`
     display:flex;
     flex-direction: column;
 `;
 
-export default { ColContainer };
+export const Row = styled.div`
+    display:flex;
+    width: 50%;
+    margin: auto;
+    align-items: center;
+    justify-content: space-around;
+`;
+
+export const Col = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+`;

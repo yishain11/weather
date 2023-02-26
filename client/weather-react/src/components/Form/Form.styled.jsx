@@ -5,22 +5,22 @@ export const FormEl = styled.form`
     justify-content: space-between;
     align-items: center;
     background-color: #095849;
-    width: 30%;
-    height: 60%;
+    width: 70%;
+    height: 70%;
     margin: auto;
 `;
 
 export const FieldsContainer = styled.p`
     display:flex;
-    width: 80%;
+    width: 90%;
     justify-content: space-around;
     align-items: center;
 `;
 
 export const Label = styled.label`
-    /* float: left; */
+    width: 40%;
 `;
 
 export const Input = styled.input`
-    /* float: right; */
+    width: 60%;
 `;

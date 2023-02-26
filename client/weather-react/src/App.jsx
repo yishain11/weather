@@ -1,11 +1,11 @@
 import './App.css'
-import SC from './components/Containers/Containers';
-import Form from './components/Form/Forms';
+import Router from './components/Router/Router';
+import { WeatherDataProvider } from "./contexts/WeatherDataContext";
 
 function App() {
-  return <SC.ColContainer>
-    <Form />
-  </SC.ColContainer>;
+  return <WeatherDataProvider>
+    <Router />
+  </WeatherDataProvider>;
 }
 
 export default App
