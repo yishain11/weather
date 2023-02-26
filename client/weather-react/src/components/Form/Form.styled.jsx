@@ -13,7 +13,7 @@ export const FormEl = styled.form`
 
 `;
 
-export const FieldsContainer = styled.p`
+export const FieldsContainer = styled.div`
     display:flex;
     width: 90%;
     justify-content: space-between;

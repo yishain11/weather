@@ -11,6 +11,11 @@ export default function Form() {
 
     const WC = useContext(WeatherDataContext);
 
+    const [filteredVals, setFilteredVals] = useState({ country: '', city: '' });
+    const [countryVal, setCountryVal] = useState('');
+    const [cityVal, setCityVal] = useState('')
+
+
     const [filteredCountries, setFilteredCountries] = useState(WC.countries);
     const [filteredCities, setFilteredCities] = useState(WC.cities);
 
@@ -21,17 +26,19 @@ export default function Form() {
     const cityInput = useRef(null);
 
     useEffect(() => {
-        handleFilter(WC.currentCity, WC.cities, setFilteredCities, setIsFilCityData)
-    }, [WC.currentCity]);
+        handleFilter(cityVal, WC.cities, setFilteredCities, setIsFilCityData);
+    }, [cityVal]);
     useEffect(() => {
-        handleFilter(WC.currentCountry, WC.countries, setFilteredCountries, setIsFilCountryData)
-    }, [WC.currentCountry]);
+        handleFilter(countryVal, WC.countries, setFilteredCountries, setIsFilCountryData);
+    }, [countryVal]);
 
     function handleInput(e, type) {
+        console.log('type', type);
+        console.log('e.target.value', e.target.value)
         if (e.target.value) {
-            type === 'city' ? WC.setCurrentCity(e.target.value) : WC.setCurrentCountry(e.target.value);
+            type === 'city' ? setCityVal(e.target.value) : setCountryVal(e.target.value);
         } else {
-            type === 'city' ? WC.setCurrentCity(WC.cities) : WC.setCurrentCountry(WC.countries)
+            type === 'city' ? setCityVal(WC.currentCity) : setCountryVal(WC.currentCountry);
         }
     }
     const debounceInput = useCallback(debounce(handleInput, 800), []);
@@ -73,10 +80,9 @@ export default function Form() {
             const input = type === 'city' ? cityInput : countryInput;
             const isData = type === 'city' ? isFilCityData : isFilCountryData;
             const options = type === 'city' ? filteredCities : filteredCountries;
-            return <FormField key={i} inputRef={input} type={type} debounceInput={(e) => {
+            return <FormField key={i} inputRef={input} type={type} isData={isData} onClickFn={handleSelectSug} options={options} debounceInput={(e) => {
                 debounceInput(e, type);
             }} >
-                {isData && <SuggestionsList options={options} onClickFn={handleSelectSug} type={type} />}
             </FormField>;
         })}
         <Button>Get Weather</Button>
