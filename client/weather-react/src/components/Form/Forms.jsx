@@ -47,11 +47,8 @@ export default function Form() {
 
     function handleSubmit(e) {
         e.preventDefault();
-        console.log('sub');
         const country = WC.currentCountry.toLowerCase();
-        console.log('country', country)
         const city = WC.currentCity.toLowerCase();
-        console.log('city', city)
         const date = new Date();
         const currentDay = date.getDate();
         const currentMonth = date.getMonth();
@@ -71,7 +68,6 @@ export default function Form() {
             const currentWeather = WC.weatherData.current[country][city][`${currentDay}-${currentMonth}`].current_weather;
             WC.setCurrentWeather({ ...currentWeather });
         }
-        console.log('nav');
         navigate('/weatherData')
     }
     if (isData) {

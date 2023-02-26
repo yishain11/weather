@@ -10,7 +10,7 @@ export const debounce = (fn, delay) => {
 
 export function handleFilter(newValue, originalArr, setFilFn, setIsFilDataFn) {
     if (newValue && originalArr) {
-        const filteredValues = originalArr.filter(el => el.includes(newValue) && el !== newValue);
+        const filteredValues = originalArr.filter(el => el.includes(newValue));
         setFilFn(filteredValues);
         setIsFilDataFn(filteredValues.length > 0);
     } else {

@@ -3,7 +3,7 @@ import { Col, Row } from '../Containers/Containers';
 
 export const Title = styled.div`
     font-weight: bold;
-    font-size: 3vw;
+    font-size: 2vw;
     text-transform: capitalize; 
 `;
 
