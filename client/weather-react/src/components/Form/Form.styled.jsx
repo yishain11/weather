@@ -16,7 +16,7 @@ export const FormEl = styled.form`
 export const FieldsContainer = styled.p`
     display:flex;
     width: 90%;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     height: 100%;
     @media screen and (max-width: 480px){
@@ -29,6 +29,7 @@ export const Label = styled.label`
     font-size: 4vw;
     display: flex;
     justify-content: flex-start;
+    text-transform: capitalize;
     @media screen and (max-width: 480px){
         font-size: calc(4rem - 6vw);
         justify-content: center;

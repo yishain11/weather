@@ -1,7 +1,7 @@
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { WeatherDataContext } from '../../contexts/WeatherDataContext';
-import { debounce } from '../../helpers/debounce.function';
+import { debounce, handleFilter, handleSelection } from '../../helpers/util.function';
 import { FormEl, FieldsContainer, Label, Input, Button } from './Form.styled';
 import SuggestionsList from '../suggestionsList/SuggestionsList';
 import FormField from './FormField';
@@ -21,24 +21,10 @@ export default function Form() {
     const cityInput = useRef(null);
 
     useEffect(() => {
-        if (WC.currentCity) {
-            const filteredCities = WC.cities.filter(el => el.includes(WC.currentCity) && el !== WC.currentCity);
-            setFilteredCities(filteredCities);
-            setIsFilCityData(filteredCities.length > 0)
-        } else {
-            setFilteredCities([])
-            setIsFilCityData(false)
-        }
+        handleFilter(WC.currentCity, WC.cities, setFilteredCities, setIsFilCityData)
     }, [WC.currentCity]);
     useEffect(() => {
-        if (WC.currentCountry) {
-            const filteredCountries = WC.countries.filter(el => el.includes(WC.currentCountry) && el !== WC.currentCountry);
-            setFilteredCountries(filteredCountries);
-            setIsFilCountryData(filteredCountries.length > 0)
-        } else {
-            setFilteredCountries([])
-            setIsFilCountryData(false)
-        }
+        handleFilter(WC.currentCountry, WC.countries, setFilteredCountries, setIsFilCountryData)
     }, [WC.currentCountry]);
 
     function handleInput(e, type) {
@@ -48,26 +34,16 @@ export default function Form() {
             type === 'city' ? WC.setCurrentCity(WC.cities) : WC.setCurrentCountry(WC.countries)
         }
     }
-    const debounceInput = useCallback(debounce(handleInput, 500), []);
+    const debounceInput = useCallback(debounce(handleInput, 800), []);
 
     function handleSelectSug(type, option) {
-        if (type === 'city') {
-            setCity(option);
-            cityInput.current.value = option;
-            setIsFilCityData(false);
-        } else if (type == "country") {
-            setCountry(option);
-            countryInput.current.value = option;
-            setIsFilCountryData(false);
-        }
+        type === 'city' ? handleSelection(WC.setCurrentCity, option, cityInput, setIsFilCityData) : handleSelection(WC.setCurrentCountry, option, countryInput, setIsFilCountryData)
     }
 
     function handleSubmit(e) {
         e.preventDefault();
         const country = WC.currentCountry.toLowerCase();
-        console.log('country', country)
         const city = WC.currentCity.toLowerCase();
-        console.log('city', city)
         const date = new Date();
         const currentDay = date.getDate();
         const currentMonth = date.getMonth();
@@ -90,17 +66,19 @@ export default function Form() {
         setIsData(true);
     }
     if (isData) {
-        console.log('isData', isData);
         return <Navigate to="/weatherData" />;
     }
     return <FormEl onSubmit={handleSubmit}>
-        <FormField inputRef={countryInput} type="country" debounceInput={(e) => {
-            debounceInput(e, 'country');
-        }} />
-        {isFilCountryData && <SuggestionsList options={filteredCountries} onClickFn={handleSelectSug} type="country" />}
-        <FormField inputRef={cityInput} type="city" debounceInput={(e) => {
-            debounceInput(e, 'city');
-        }} />
+        {['country', 'city'].map((type, i) => {
+            const input = type === 'city' ? cityInput : countryInput;
+            const isData = type === 'city' ? isFilCityData : isFilCountryData;
+            const options = type === 'city' ? filteredCities : filteredCountries;
+            return <FormField key={i} inputRef={input} type={type} debounceInput={(e) => {
+                debounceInput(e, type);
+            }} >
+                {isData && <SuggestionsList options={options} onClickFn={handleSelectSug} type={type} />}
+            </FormField>;
+        })}
         <Button>Get Weather</Button>
     </FormEl>;
 }
