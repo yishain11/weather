@@ -1,5 +1,4 @@
-import { createContext, useCallback, useMemo, useRef, useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { createContext, useMemo, useRef, useState } from 'react';
 
 const WeatherDataContext = createContext({});
 

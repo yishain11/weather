@@ -28,21 +28,8 @@ export default function Form() {
             //  with memo
             WC.setCurrentCountry(country);
             WC.setCurrentCity(city);
-            console.log('weatherData', WC.weatherData);
             setIsData(true);
-            // const headers = new Headers();
-            // headers.append('Content-Type', 'application/json');
-            // WC.fetchWeatherDataFN(country, city).then(res => {
-            //     console.log('res client', res);
-            //     currentData.current[country][city][`${currentDay}-${currentMonth}`] = res.weatherRes;
-            //     WC.setCurrentWeather(res.weatherRes.current_weather);
-            //     console.log('currentData.', currentData.current);
-            //     localStorage.setItem('currentWeather', JSON.stringify(res.weatherRes.current_weather))
-            //     setIsData(true);
-            // }).catch(err => console.error('fetch err', err));
         } else {
-            console.log('found old data to use');
-            console.log('currentData.current[country][city][`${currentDay}-${currentMonth}`].current_weather', currentData.current[country][city][`${currentDay}-${currentMonth}`].current_weather);
             const currentWeather = WC.weatherData.current[country][city][`${currentDay}-${currentMonth}`].current_weather;
             WC.setCurrentWeather({ ...currentWeather });
             setIsData(true);

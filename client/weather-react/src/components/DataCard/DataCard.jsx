@@ -1,14 +1,17 @@
 import { Col, Row } from '../Containers/Containers';
-import imgMag from '../../assets/img/ImgMap';
+import imgMag, { getImg } from '../../assets/img/ImgMap';
+import { Data, DataCol, DataRow, Title } from './DataCard.style';
 
 export default function DataCard({ data, img }) {
-    return <Row>
-        <Col style={{ width: "70%" }}>
-            <h4>{data[0]}</h4>
-            <p>{data[1]}</p>
-        </Col>
-        <Col style={{ width: "30%" }}>
-            {data[0] === "weathercode" && <img src={imgMag[data[0]][data[1]]} width="50" height="50" />}
-        </Col>
-    </Row>;
+    const [title, value] = data;
+    const [src, desc] = getImg(title, value);
+    return <DataRow>
+        <DataCol style={{ width: "60%" }}>
+            <Title>{title}</Title>
+            <Data>{value}</Data>
+        </DataCol>
+        <DataCol style={{ width: "40%" }}>
+            {(src && title !== 'time') && <img src={src} width="30%" height="30%" title={desc} alt={desc} />}
+        </DataCol>
+    </DataRow>;
 }
