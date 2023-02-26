@@ -17,38 +17,35 @@ export default function Form() {
     const [isFilCountryData, setIsFilCountryData] = useState(false);
     const [isFilCityData, setIsFilCityData] = useState(false);
 
-    const [currentCountry, setCountry] = useState('');
-    const [currentCity, setCity] = useState('')
-
     const countryInput = useRef(null);
     const cityInput = useRef(null);
 
     useEffect(() => {
-        if (currentCity) {
-            const filteredCities = WC.cities.filter(el => el.includes(currentCity) && el !== currentCity);
+        if (WC.currentCity) {
+            const filteredCities = WC.cities.filter(el => el.includes(WC.currentCity) && el !== WC.currentCity);
             setFilteredCities(filteredCities);
             setIsFilCityData(filteredCities.length > 0)
         } else {
             setFilteredCities([])
             setIsFilCityData(false)
         }
-    }, [currentCity]);
+    }, [WC.currentCity]);
     useEffect(() => {
-        if (currentCountry) {
-            const filteredCountries = WC.countries.filter(el => el.includes(currentCountry) && el !== currentCountry);
+        if (WC.currentCountry) {
+            const filteredCountries = WC.countries.filter(el => el.includes(WC.currentCountry) && el !== WC.currentCountry);
             setFilteredCountries(filteredCountries);
             setIsFilCountryData(filteredCountries.length > 0)
         } else {
             setFilteredCountries([])
             setIsFilCountryData(false)
         }
-    }, [currentCountry]);
+    }, [WC.currentCountry]);
 
     function handleInput(e, type) {
         if (e.target.value) {
-            type === 'city' ? setCity(e.target.value) : setCountry(e.target.value);
+            type === 'city' ? WC.setCurrentCity(e.target.value) : WC.setCurrentCountry(e.target.value);
         } else {
-            type === 'city' ? setCity(WC.cities) : setCountry(WC.countries)
+            type === 'city' ? WC.setCurrentCity(WC.cities) : WC.setCurrentCountry(WC.countries)
         }
     }
     const debounceInput = useCallback(debounce(handleInput, 500), []);
@@ -67,9 +64,9 @@ export default function Form() {
 
     function handleSubmit(e) {
         e.preventDefault();
-        const country = currentCountry.toLowerCase();
+        const country = WC.currentCountry.toLowerCase();
         console.log('country', country)
-        const city = currentCity.toLowerCase();
+        const city = WC.currentCity.toLowerCase();
         console.log('city', city)
         const date = new Date();
         const currentDay = date.getDate();
