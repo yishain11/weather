@@ -9,3 +9,8 @@ export const Container = styled.div`
 export const NavBtn = styled(Button)`
     font-size: 2vw;
 `;
+
+export const Title = styled.h1`
+    background-color: #0b1e86;
+    color: white;
+`;
