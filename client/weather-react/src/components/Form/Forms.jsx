@@ -28,8 +28,10 @@ export default function Form() {
             const filteredCities = WC.cities.filter(el => el.includes(currentCity));
             console.log('filteredCities', filteredCities);
             setFilteredCities(filteredCities);
+            setIsFilCityData(true)
         } else {
             setFilteredCities([])
+            setIsFilCityData(false)
         }
     }, [currentCity]);
     useEffect(() => {
@@ -37,8 +39,10 @@ export default function Form() {
             const filteredCountries = WC.countries.filter(el => el.includes(currentCountry));
             console.log('filteredCountries', filteredCountries);
             setFilteredCountries(filteredCountries);
+            setIsFilCountryData(true)
         } else {
             setFilteredCountries([])
+            setIsFilCountryData(false)
         }
     }, [currentCountry]);
 
@@ -53,14 +57,15 @@ export default function Form() {
     const debounceInput = useCallback(debounce(handleInput, 500), []);
 
     function handleSelectSug(type, option) {
+        console.log('option', option)
         if (type === 'city') {
             setCity(option);
             cityInput.current.value = option;
-            setIsFilCityData(true);
+            setIsFilCityData(false);
         } else if (type == "country") {
             setCountry(option);
             countryInput.current.value = option;
-            setFilteredCountries(true);
+            setIsFilCountryData(false);
         }
     }
 
@@ -94,6 +99,7 @@ export default function Form() {
         <FormField inputRef={countryInput} type="country" debounceInput={(e) => {
             debounceInput(e, 'country');
         }} />
+        {isFilCountryData && <SuggestionsList options={filteredCountries} onClickFn={handleSelectSug} type="country" />}
         <FormField inputRef={cityInput} type="city" debounceInput={(e) => {
             debounceInput(e, 'city');
         }} />

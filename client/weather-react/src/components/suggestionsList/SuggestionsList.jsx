@@ -1,11 +1,14 @@
-import { List } from './SuggestionsList.style';
+import { memo } from 'react';
+import { Item, List } from './SuggestionsList.style';
 
-export default function SuggestionsList({ type, options, onClickFn }) {
+export default memo(function SuggestionsList({ type, options, onClickFn }) {
     console.log('options', options);
     return <List>
-        <h1>list</h1>
-        {options.map((option) => {
-            return <div onClick={() => { onClickFn(type, option); }}>{option}</div>;
+        {options.map((option, i) => {
+            return <Item key={i} onClick={(e) => {
+                e.preventDefault();
+                onClickFn(type, option);
+            }}>{option}</Item>;
         })}
     </List>;
-}
+});
