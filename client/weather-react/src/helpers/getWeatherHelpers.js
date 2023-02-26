@@ -1,7 +1,7 @@
 
 import { countries } from '../data/countries';
 import { data } from '../data/parsed';
-const weatherUrl = import.meta.env.VITE_SERVER_URL_DEV;
+const weatherUrl = import.meta.env.VITE_WEATHER_URL;
 
 function getLatLng(country, city) {
     if (!countries.includes(country)) {

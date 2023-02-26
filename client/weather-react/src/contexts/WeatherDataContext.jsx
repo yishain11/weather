@@ -17,7 +17,7 @@ const WeatherDataProvider = ({ children }) => {
         setCountries(getCountries());
     }, []);
     useEffect(() => {
-        setCities(getCities(currentCity));
+        setCities(getCities(currentCountry));
     }, [currentCountry]);
     useEffect(() => {
         if (currentCity === '' || currentCountry === '') {
@@ -25,17 +25,18 @@ const WeatherDataProvider = ({ children }) => {
         }
         getWeather(currentCountry, currentCity)
             .then(res => {
-                if (res?.weatherRes?.current_weather) {
-                    setCurrentWeather(res.weatherRes.current_weather);
-                    weatherData.current = res?.weatherRes?.current_weather;
+                console.log('res', res);
+                if (res.current_weather) {
+                    setCurrentWeather(res.current_weather);
+                    weatherData.current = res?.current_weather;
                 } else {
                     setCurrentWeather({});
                     weatherData.current = {};
                 }
-                if (res?.weatherRes?.daily) {
-                    const processedDailyData = processDailyWeather(res.weatherRes.daily);
-                    setNextDaysWeather({ dailyData: processedDailyData, dailyUnits: res.weatherRes.daily_units });
-                    localStorage.setItem('nextDaysWeather', JSON.stringify({ dailyData: processedDailyData, dailyUnits: res.weatherRes.daily_units }));
+                if (res?.daily) {
+                    const processedDailyData = processDailyWeather(res.daily);
+                    setNextDaysWeather({ dailyData: processedDailyData, dailyUnits: res.daily_units });
+                    localStorage.setItem('nextDaysWeather', JSON.stringify({ dailyData: processedDailyData, dailyUnits: res.daily_units }));
                 }
             })
             .catch(err => {

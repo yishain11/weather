@@ -10,7 +10,7 @@ const titleMap = {
     time: 'time'
 };
 
-export default function DataCard({ data, img }) {
+export default function DataCard({ data, img, showTime }) {
     const [title, value] = data;
     const [src, desc] = getImg(title, value);
     return <DataRow>
