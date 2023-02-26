@@ -66,7 +66,6 @@ export default function Form() {
     }
 
     function handleSubmit(e) {
-        console.log('sub');
         e.preventDefault();
         const country = currentCountry.toLowerCase();
         console.log('country', country)
@@ -85,7 +84,6 @@ export default function Form() {
             WC.weatherData.current[country][city] = {};
         }
         if (!(`${currentDay}-${currentMonth}` in WC.weatherData.current[country][city])) {
-            //  with memo
             WC.setCurrentCountry(country);
             WC.setCurrentCity(city);
         } else {
