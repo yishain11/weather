@@ -33,8 +33,6 @@ export default function Form() {
     }, [countryVal]);
 
     function handleInput(e, type) {
-        console.log('type', type);
-        console.log('e.target.value', e.target.value)
         if (e.target.value) {
             type === 'city' ? setCityVal(e.target.value) : setCountryVal(e.target.value);
         } else {

@@ -21,11 +21,9 @@ const WeatherDataProvider = ({ children }) => {
             });
     }, []);
     useEffect(() => {
-        console.log('currentCountry', currentCountry)
         if (currentCountry) {
             getCitiesByCountry(serverURL, currentCountry)
                 .then(res => {
-                    console.log('cities by country', currentCountry, ' ', res);
                     setCities(res);
                 })
                 .catch(err => {
