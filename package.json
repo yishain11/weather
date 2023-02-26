@@ -1,0 +1,28 @@
+{
+  "name": "weather",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install": "npm i --prefix './server' && npm i --prefix './client/weather-react'",
+    "build": "npm run build --prefix './server' ",
+    "start": "npm run start --prefix './server'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yishain11/weather.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yishain11/weather/issues"
+  },
+  "homepage": "https://github.com/yishain11/weather#readme",
+  "dependencies": {
+    "prefix": "^1.0.0",
+    "weather": "file:server",
+    "weather-react": "file:client/weather-react"
+  }
+}
