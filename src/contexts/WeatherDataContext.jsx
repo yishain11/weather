@@ -25,7 +25,6 @@ const WeatherDataProvider = ({ children }) => {
         }
         getWeather(currentCountry, currentCity)
             .then(res => {
-                console.log('res', res);
                 if (res.current_weather) {
                     setCurrentWeather(res.current_weather);
                     weatherData.current = res?.current_weather;

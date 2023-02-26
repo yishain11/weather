@@ -2,7 +2,6 @@
 import { countries } from '../data/countries';
 import { data } from '../data/parsed';
 const weatherUrl = 'https://api.open-meteo.com/v1/forecast?';
-console.log('weatherUrl', weatherUrl)
 
 function getLatLng(country, city) {
     if (!countries.includes(country)) {
