@@ -1,5 +1,6 @@
-import { createContext, useEffect, useMemo, useRef, useState } from 'react';
-import { getWeather, getCitiesByCountry, getCountries } from '../helpers/fetch.functions';
+import { createContext, useEffect, useRef, useState } from 'react';
+import { getWeather, getCountries } from '../helpers/fetch.functions';
+import { getCities } from '../helpers/getWeatherHelpers';
 import { processDailyWeather } from '../helpers/util.function';
 const WeatherDataContext = createContext({});
 
@@ -8,36 +9,21 @@ const WeatherDataProvider = ({ children }) => {
     const [currentCity, setCurrentCity] = useState('')
     const [cities, setCities] = useState([]);
     const [countries, setCountries] = useState([])
-    const serverURL = useRef(import.meta.env.VITE_SERVER_URL_DEV);
     const weatherData = useRef({});
     const [currentWeather, setCurrentWeather] = useState(JSON.parse(localStorage.getItem('currentWeather')) || {})
     const [nextDaysWeather, setNextDaysWeather] = useState(JSON.parse(localStorage.getItem('nextDaysWeather')) || {})
 
     useEffect(() => {
-        getCountries(serverURL)
-            .then(res => {
-                setCountries(res);
-            })
-            .catch(err => {
-                console.error('err in loading cities', err);
-            });
+        setCountries(getCountries());
     }, []);
     useEffect(() => {
-        if (currentCountry) {
-            getCitiesByCountry(serverURL, currentCountry)
-                .then(res => {
-                    setCities(res);
-                })
-                .catch(err => {
-                    console.error('error in loading cities:', err);
-                });
-        }
+        setCities(getCities(currentCity));
     }, [currentCountry]);
     useEffect(() => {
         if (currentCity === '' || currentCountry === '') {
             return;
         }
-        getWeather(serverURL, currentCountry, currentCity)
+        getWeather(currentCountry, currentCity)
             .then(res => {
                 if (res?.weatherRes?.current_weather) {
                     setCurrentWeather(res.weatherRes.current_weather);
