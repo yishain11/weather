@@ -1,7 +1,7 @@
 import { useContext, useRef, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { WeatherDataContext } from '../../contexts/WeatherDataContext';
-import { FormEl, FieldsContainer, Label, Input } from './Form.styled';
+import { FormEl, FieldsContainer, Label, Input, Button } from './Form.styled';
 
 export default function Form() {
     const [isData, setIsData] = useState(false)
@@ -46,6 +46,6 @@ export default function Form() {
             <Label htmlFor="city">City</Label>
             <Input ref={cityInput} type="text" name='city' />
         </FieldsContainer>
-        <button>Get Weather</button>
+        <Button>Get Weather</Button>
     </FormEl>;
 }
