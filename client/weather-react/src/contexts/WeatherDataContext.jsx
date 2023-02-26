@@ -1,5 +1,6 @@
 import { createContext, useEffect, useMemo, useRef, useState } from 'react';
 import { getWeather, getCitiesByCountry, getCountries } from '../helpers/fetch.functions';
+import { processDailyWeather } from '../helpers/util.function';
 const WeatherDataContext = createContext({});
 
 const WeatherDataProvider = ({ children }) => {
@@ -10,6 +11,7 @@ const WeatherDataProvider = ({ children }) => {
     const serverURL = useRef(import.meta.env.VITE_SERVER_URL_DEV);
     const weatherData = useRef({});
     const [currentWeather, setCurrentWeather] = useState(JSON.parse(localStorage.getItem('currentWeather')) || {})
+    const [nextDaysWeather, setNextDaysWeather] = useState(JSON.parse(localStorage.getItem('nextDaysWeather')) || {})
 
     useEffect(() => {
         getCountries(serverURL)
@@ -37,6 +39,7 @@ const WeatherDataProvider = ({ children }) => {
         }
         getWeather(serverURL, currentCountry, currentCity)
             .then(res => {
+                console.log('res', res)
                 if (res?.weatherRes?.current_weather) {
                     setCurrentWeather(res.weatherRes.current_weather);
                     weatherData.current = res?.weatherRes?.current_weather;
@@ -44,23 +47,31 @@ const WeatherDataProvider = ({ children }) => {
                     setCurrentWeather({});
                     weatherData.current = {};
                 }
+                if (res?.weatherRes?.daily) {
+                    console.log('res?.weatherRes?.daily', res?.weatherRes?.daily);
+                    const processedDailyData = processDailyWeather(res.weatherRes.daily);
+                    setNextDaysWeather({ dailyData: processedDailyData, dailyUnits: res.weatherRes.daily_units });
+                    localStorage.setItem('nextDaysWeather', JSON.stringify({ dailyData: processedDailyData, dailyUnits: res.weatherRes.daily_units }));
+                }
             })
             .catch(err => {
                 console.error('error loading data: ', err);
                 setCurrentWeather({});
                 weatherData.current = {};
+                setNextDaysWeather({})
             });
     }, [currentCity, currentCountry])
     const weatherState = {
-        setCurrentWeather,
         currentWeather,
-        setCurrentCountry,
-        setCurrentCity,
         currentCity,
         currentCountry,
-        weatherData,
         cities,
-        countries
+        countries,
+        weatherData,
+        nextDaysWeather,
+        setCurrentWeather,
+        setCurrentCountry,
+        setCurrentCity,
     };
     return <WeatherDataContext.Provider value={weatherState} >{children}</WeatherDataContext.Provider>;
 };

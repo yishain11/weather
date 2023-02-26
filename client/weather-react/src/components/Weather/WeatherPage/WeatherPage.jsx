@@ -1,13 +1,17 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import WeatherCard from "../WeatherCard/WeatherCard";
 import { WeatherDataContext } from "../../../contexts/WeatherDataContext";
 import { Navigate, useNavigate } from 'react-router-dom';
-import { Button } from '../../Form/Form.styled';
-import { Row } from '../../Containers/Containers';
+import { ColContainer, Row } from '../../Containers/Containers';
 import { NavBtn } from './WeatherPage.style';
 
 export default function WeatherPage() {
     const WC = useContext(WeatherDataContext);
+    const dailyVals = WC.nextDaysWeather.dailyData.sort((a, b) => {
+        return a.time - b.time;
+    });
+    console.log('dailyVals', dailyVals)
+    const [showMore, setShowMore] = useState(false)
     const navigate = useNavigate();
 
     if (!WC.currentCity || !WC.currentCountry) {
@@ -20,7 +24,16 @@ export default function WeatherPage() {
             <NavBtn onClick={() => { navigate('/'); }}>
                 Choose Another Location
             </NavBtn>
-            <NavBtn>Show 5 days predictions</NavBtn>
+            <NavBtn onClick={() => { setShowMore(!showMore); }}>{showMore ? 'Hide' : 'Show'} 5 days predictions</NavBtn>
         </Row>
+        {showMore && <ColContainer style={{ margin: "auto" }}>
+            <h1>Weather for the coming days:</h1>
+            {dailyVals.map((el, i) => {
+                return <ColContainer key={i} style={{ width: "100%" }}>
+                    <h1>Weather for: {el.time}</h1>
+                    <WeatherCard weatherData={el} />
+                </ColContainer>;
+            })}
+        </ColContainer>}
     </div>;
 }

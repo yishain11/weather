@@ -21,6 +21,7 @@ export const DataRow = styled(Row)`
     border: 1px solid lightcyan;
     border-radius: 5px;
     margin-top: 1rem;
+    margin-bottom: 1rem;
     height: 100%;
     @media screen and (max-width: 480px){
         flex-direction: column;

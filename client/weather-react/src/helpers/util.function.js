@@ -24,3 +24,22 @@ export function handleSelection(setFn, selectedOption, inputRef, setIfFilFn) {
     inputRef.current.value = selectedOption;
     setIfFilFn(false);
 }
+
+export function processDailyWeather(dailyWeatherObj) {
+    const termsMap = {
+        temperature_2m_max: 'temperature',
+        windspeed_10m_max: 'windspeed'
+    };
+    const timeAmount = dailyWeatherObj.time.length;
+    const allowedVals = ['time', 'temperature_2m_max', 'weathercode', 'windspeed_10m_max'];
+    const dailyWeatherVals = [];
+    for (let i = 0; i < timeAmount; i++) {
+        const newDataObj = {};
+        allowedVals.forEach((type) => {
+            const finalKey = type in termsMap ? termsMap[type] : type;
+            newDataObj[finalKey] = dailyWeatherObj[type][i];
+        });
+        dailyWeatherVals.push(newDataObj);
+    }
+    return dailyWeatherVals;
+}

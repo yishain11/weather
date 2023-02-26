@@ -1,9 +1,8 @@
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { WeatherDataContext } from '../../contexts/WeatherDataContext';
 import { debounce, handleFilter, handleSelection } from '../../helpers/util.function';
-import { FormEl, FieldsContainer, Label, Input, Button } from './Form.styled';
-import SuggestionsList from '../suggestionsList/SuggestionsList';
+import { FormEl, Button } from './Form.styled';
 import FormField from './FormField';
 
 export default function Form() {
@@ -15,6 +14,7 @@ export default function Form() {
     const [countryVal, setCountryVal] = useState('');
     const [cityVal, setCityVal] = useState('')
 
+    const navigate = useNavigate()
 
     const [filteredCountries, setFilteredCountries] = useState(WC.countries);
     const [filteredCities, setFilteredCities] = useState(WC.cities);
@@ -47,8 +47,11 @@ export default function Form() {
 
     function handleSubmit(e) {
         e.preventDefault();
+        console.log('sub');
         const country = WC.currentCountry.toLowerCase();
+        console.log('country', country)
         const city = WC.currentCity.toLowerCase();
+        console.log('city', city)
         const date = new Date();
         const currentDay = date.getDate();
         const currentMonth = date.getMonth();
@@ -68,7 +71,8 @@ export default function Form() {
             const currentWeather = WC.weatherData.current[country][city][`${currentDay}-${currentMonth}`].current_weather;
             WC.setCurrentWeather({ ...currentWeather });
         }
-        setIsData(true);
+        console.log('nav');
+        navigate('/weatherData')
     }
     if (isData) {
         return <Navigate to="/weatherData" />;
