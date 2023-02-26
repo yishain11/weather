@@ -8,6 +8,7 @@ const WeatherDataProvider = ({ children }) => {
     const [cities, setCities] = useState([]);
     const [countries, setCountries] = useState([])
     const serverURL = useRef(import.meta.env.VITE_SERVER_URL_DEV);
+    console.log('serverURL', serverURL)
     const weatherData = useRef({});
     const [currentWeather, setCurrentWeather] = useState(JSON.parse(localStorage.getItem('currentWeather')) || {})
 
@@ -36,7 +37,7 @@ const WeatherDataProvider = ({ children }) => {
         if (currentCity === '' || currentCountry === '') {
             return;
         }
-        getWeather(currentCountry, currentCity)
+        getWeather(serverURL, currentCountry, currentCity)
             .then(res => {
                 if (res?.weatherRes?.current_weather) {
                     setCurrentWeather(res.weatherRes.current_weather);

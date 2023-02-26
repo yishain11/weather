@@ -25,10 +25,9 @@ export default function Form() {
 
     useEffect(() => {
         if (currentCity) {
-            const filteredCities = WC.cities.filter(el => el.includes(currentCity));
-            console.log('filteredCities', filteredCities);
+            const filteredCities = WC.cities.filter(el => el.includes(currentCity) && el !== currentCity);
             setFilteredCities(filteredCities);
-            setIsFilCityData(true)
+            setIsFilCityData(filteredCities.length > 0)
         } else {
             setFilteredCities([])
             setIsFilCityData(false)
@@ -36,10 +35,9 @@ export default function Form() {
     }, [currentCity]);
     useEffect(() => {
         if (currentCountry) {
-            const filteredCountries = WC.countries.filter(el => el.includes(currentCountry));
-            console.log('filteredCountries', filteredCountries);
+            const filteredCountries = WC.countries.filter(el => el.includes(currentCountry) && el !== currentCountry);
             setFilteredCountries(filteredCountries);
-            setIsFilCountryData(true)
+            setIsFilCountryData(filteredCountries.length > 0)
         } else {
             setFilteredCountries([])
             setIsFilCountryData(false)
@@ -53,11 +51,9 @@ export default function Form() {
             type === 'city' ? setCity(WC.cities) : setCountry(WC.countries)
         }
     }
-
     const debounceInput = useCallback(debounce(handleInput, 500), []);
 
     function handleSelectSug(type, option) {
-        console.log('option', option)
         if (type === 'city') {
             setCity(option);
             cityInput.current.value = option;
@@ -70,12 +66,18 @@ export default function Form() {
     }
 
     function handleSubmit(e) {
+        console.log('sub');
         e.preventDefault();
         const country = currentCountry.toLowerCase();
+        console.log('country', country)
         const city = currentCity.toLowerCase();
+        console.log('city', city)
         const date = new Date();
         const currentDay = date.getDate();
         const currentMonth = date.getMonth();
+        if (!country || !city) {
+            return;
+        }
         if (!(country in WC.weatherData)) {
             WC.weatherData.current[country] = {};
         }
@@ -93,7 +95,8 @@ export default function Form() {
         setIsData(true);
     }
     if (isData) {
-        return <Navigate to="weatherData" />;
+        console.log('isData', isData);
+        return <Navigate to="/weatherData" />;
     }
     return <FormEl onSubmit={handleSubmit}>
         <FormField inputRef={countryInput} type="country" debounceInput={(e) => {
