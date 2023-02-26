@@ -17,7 +17,6 @@ export default function Form() {
         const date = new Date();
         const currentDay = date.getDate();
         const currentMonth = date.getMonth();
-        console.log('WC.currentWeather', WC.currentWeather);
         if (!(country in WC.weatherData)) {
             WC.weatherData.current[country] = {};
         }

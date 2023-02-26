@@ -20,13 +20,11 @@ const WeatherDataProvider = ({ children }) => {
             .catch(err => console.error('fetch err', err));
     };
     const weatherDataLoaded = useMemo(() => {
-        console.log('loading data in context');
         if (currentCity === '' || currentCountry === '') {
             return;
         }
         fetchWeatherDataFN(currentCountry, currentCity)
             .then(res => {
-                console.log('res', res);
                 if (res?.weatherRes?.current_weather) {
                     setCurrentWeather(res.weatherRes.current_weather);
                     weatherData.current = res?.weatherRes?.current_weather;
