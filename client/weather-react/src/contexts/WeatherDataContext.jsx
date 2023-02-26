@@ -39,7 +39,6 @@ const WeatherDataProvider = ({ children }) => {
         }
         getWeather(serverURL, currentCountry, currentCity)
             .then(res => {
-                console.log('res', res)
                 if (res?.weatherRes?.current_weather) {
                     setCurrentWeather(res.weatherRes.current_weather);
                     weatherData.current = res?.weatherRes?.current_weather;
@@ -48,7 +47,6 @@ const WeatherDataProvider = ({ children }) => {
                     weatherData.current = {};
                 }
                 if (res?.weatherRes?.daily) {
-                    console.log('res?.weatherRes?.daily', res?.weatherRes?.daily);
                     const processedDailyData = processDailyWeather(res.weatherRes.daily);
                     setNextDaysWeather({ dailyData: processedDailyData, dailyUnits: res.weatherRes.daily_units });
                     localStorage.setItem('nextDaysWeather', JSON.stringify({ dailyData: processedDailyData, dailyUnits: res.weatherRes.daily_units }));

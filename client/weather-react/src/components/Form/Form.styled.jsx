@@ -3,11 +3,11 @@ export const FormEl = styled.form`
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    background-color: #07658d;
+    background-color: #001772;
     width: 70%;
     height: 50vh;
     margin: auto;
-    border-radius: 5px;
+    border-radius: 2%;
     display: flex;
     flex-direction: column;
 

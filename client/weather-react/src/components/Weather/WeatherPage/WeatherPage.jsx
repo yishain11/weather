@@ -3,22 +3,20 @@ import WeatherCard from "../WeatherCard/WeatherCard";
 import { WeatherDataContext } from "../../../contexts/WeatherDataContext";
 import { Navigate, useNavigate } from 'react-router-dom';
 import { ColContainer, Row } from '../../Containers/Containers';
-import { NavBtn } from './WeatherPage.style';
+import { Container, NavBtn } from './WeatherPage.style';
 
 export default function WeatherPage() {
     const WC = useContext(WeatherDataContext);
     const dailyVals = WC.nextDaysWeather.dailyData.sort((a, b) => {
         return a.time - b.time;
     });
-    console.log('dailyVals', dailyVals)
     const [showMore, setShowMore] = useState(false)
     const navigate = useNavigate();
 
     if (!WC.currentCity || !WC.currentCountry) {
         return <Navigate to="/" />;
     }
-    return <div>
-        <h1>WeatherPage for {WC.currentCity}, {WC.currentCountry}</h1>
+    return <Container>
         {Object.keys(WC.currentWeather).length > 0 ? <WeatherCard weatherData={WC.currentWeather} /> : <h2>No data found for {WC.currentCity}, {WC.currentCountry}</h2>}
         <Row style={{ marginTop: '1vh' }}>
             <NavBtn onClick={() => { navigate('/'); }}>
@@ -35,5 +33,5 @@ export default function WeatherPage() {
                 </ColContainer>;
             })}
         </ColContainer>}
-    </div>;
+    </Container>;
 }
