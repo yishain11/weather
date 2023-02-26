@@ -1,5 +1,6 @@
 import { createContext, useEffect, useMemo, useRef, useState } from 'react';
 import { getWeather, getCitiesByCountry, getCountries } from '../helpers/fetch.functions';
+import { processDailyWeather } from '../helpers/util.function';
 const WeatherDataContext = createContext({});
 
 const WeatherDataProvider = ({ children }) => {
@@ -47,14 +48,17 @@ const WeatherDataProvider = ({ children }) => {
                     weatherData.current = {};
                 }
                 if (res?.weatherRes?.daily) {
-                    setNextDaysWeather({ dailyData: res.weatherRes.daily, dailyUnits: res.weatherRes.daily_units });
-                    localStorage.setItem('nextDaysWeather', JSON.stringify({ dailyData: res.weatherRes.daily, dailyUnits: res.weatherRes.daily_units }));
+                    console.log('res?.weatherRes?.daily', res?.weatherRes?.daily);
+                    const processedDailyData = processDailyWeather(res.weatherRes.daily);
+                    setNextDaysWeather({ dailyData: processedDailyData, dailyUnits: res.weatherRes.daily_units });
+                    localStorage.setItem('nextDaysWeather', JSON.stringify({ dailyData: processedDailyData, dailyUnits: res.weatherRes.daily_units }));
                 }
             })
             .catch(err => {
                 console.error('error loading data: ', err);
                 setCurrentWeather({});
                 weatherData.current = {};
+                setNextDaysWeather({})
             });
     }, [currentCity, currentCountry])
     const weatherState = {
