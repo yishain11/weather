@@ -34,7 +34,15 @@ export default function Form() {
 
     function handleInput(e, type) {
         if (e.target.value) {
-            type === 'city' ? setCityVal(e.target.value) : setCountryVal(e.target.value);
+            switch (type) {
+                case 'city':
+                    setCityVal(e.target.value);
+                    break;
+                case 'country':
+                    setCountryVal(e.target.value);
+                    setCityVal('');
+                    break;
+            }
         } else {
             type === 'city' ? setCityVal(WC.currentCity) : setCountryVal(WC.currentCountry);
         }

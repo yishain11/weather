@@ -15,6 +15,7 @@ function getCities(country) {
         return;
     }
     return Object.keys(data[country]);
+
 }
 
 function getWeatherData(lat, long) {
