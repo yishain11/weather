@@ -10,6 +10,7 @@ const WeatherDataProvider = ({ children }) => {
     const serverURL = useRef(import.meta.env.VITE_SERVER_URL_DEV);
     const weatherData = useRef({});
     const [currentWeather, setCurrentWeather] = useState(JSON.parse(localStorage.getItem('currentWeather')) || {})
+    const [nextDaysWeather, setNextDaysWeather] = useState(JSON.parse(localStorage.getItem('nextDaysWeather')) || {})
 
     useEffect(() => {
         getCountries(serverURL)
@@ -37,12 +38,17 @@ const WeatherDataProvider = ({ children }) => {
         }
         getWeather(serverURL, currentCountry, currentCity)
             .then(res => {
+                console.log('res', res)
                 if (res?.weatherRes?.current_weather) {
                     setCurrentWeather(res.weatherRes.current_weather);
                     weatherData.current = res?.weatherRes?.current_weather;
                 } else {
                     setCurrentWeather({});
                     weatherData.current = {};
+                }
+                if (res?.weatherRes?.daily) {
+                    setNextDaysWeather({ dailyData: res.weatherRes.daily, dailyUnits: res.weatherRes.daily_units });
+                    localStorage.setItem('nextDaysWeather', JSON.stringify({ dailyData: res.weatherRes.daily, dailyUnits: res.weatherRes.daily_units }));
                 }
             })
             .catch(err => {
@@ -52,15 +58,16 @@ const WeatherDataProvider = ({ children }) => {
             });
     }, [currentCity, currentCountry])
     const weatherState = {
-        setCurrentWeather,
         currentWeather,
-        setCurrentCountry,
-        setCurrentCity,
         currentCity,
         currentCountry,
-        weatherData,
         cities,
-        countries
+        countries,
+        weatherData,
+        nextDaysWeather,
+        setCurrentWeather,
+        setCurrentCountry,
+        setCurrentCity,
     };
     return <WeatherDataContext.Provider value={weatherState} >{children}</WeatherDataContext.Provider>;
 };
