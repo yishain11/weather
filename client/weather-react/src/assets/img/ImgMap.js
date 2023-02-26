@@ -1,3 +1,5 @@
+// all icons are from freeicons.io
+
 import clearSky from "./clear_sky.svg";
 import cloudy from './cloudy.svg';
 import fog from './fog.svg';
