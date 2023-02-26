@@ -7,5 +7,6 @@ export function getCountries() {
 
 export function getWeather(country, city) {
     const { lat, lon } = getLatLng(country, city);
+    console.log('lat, lon', lat, lon)
     return getWeatherData(lat, lon);
 }
