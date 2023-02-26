@@ -5,13 +5,20 @@ const dataObj = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/parsed.
 const countriesArray = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/countries.json'), 'utf-8'));
 const weatherUrl = process.env.WEATHER_URL;
 
-
 function getLatLng(country, city) {
     if (!countriesArray.includes(country)) {
         return;
     }
     return dataObj[country][city];
 }
+
+function getCities(country) {
+    if (!(countriesArray.includes(country))) {
+        return;
+    }
+    return Object.keys(dataObj[country]);
+}
+
 function getWeatherData(lat, long) {
     const url = `${weatherUrl}latitude=${lat}&longitude=${long}&daily=weathercode,temperature_2m_max,temperature_2m_min,uv_index_max,rain_sum,precipitation_hours,windspeed_10m_max&timezone=auto&timeformat=iso8601&current_weather=true`;
     return fetch(url)
@@ -19,4 +26,4 @@ function getWeatherData(lat, long) {
         .catch(err => console.error('err', err));
 }
 
-module.exports = { getLatLng, getWeatherData };
+module.exports = { getCities, getLatLng, getWeatherData };

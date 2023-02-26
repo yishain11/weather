@@ -1,11 +1,6 @@
 import DataCard from '../../DataCard/DataCard';
 import * as SC from './WeatherCard.style';
 
-const titleMap = {
-    windspeed: 'wind speed',
-    winddirection: 'wind direction',
-    weathercode: 'weather code'
-};
 
 export default function WeatherCard({ weatherData }) {
     return <SC.Section>
