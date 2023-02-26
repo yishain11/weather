@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 export const FormEl = styled.form`
-    display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
@@ -9,6 +8,9 @@ export const FormEl = styled.form`
     height: 50vh;
     margin: auto;
     border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+
 `;
 
 export const FieldsContainer = styled.p`
@@ -17,6 +19,9 @@ export const FieldsContainer = styled.p`
     justify-content: space-around;
     align-items: center;
     height: 100%;
+    @media screen and (max-width: 480px){
+        flex-direction: column;
+    }
 `;
 
 export const Label = styled.label`
@@ -24,6 +29,10 @@ export const Label = styled.label`
     font-size: 4vw;
     display: flex;
     justify-content: flex-start;
+    @media screen and (max-width: 480px){
+        font-size: calc(4rem - 6vw);
+        justify-content: center;
+    }
 `;
 
 export const Input = styled.input`
